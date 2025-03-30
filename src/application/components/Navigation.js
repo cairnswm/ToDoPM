@@ -26,7 +26,7 @@ const Navigation = () => {
           to={user ? "/home" : "/"}
           style={{ cursor: "pointer" }}
         >
-          Template Application
+          Project Manager
         </Navbar.Brand>
         <Navbar.Toggle />
 

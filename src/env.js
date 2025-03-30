@@ -1,5 +1,6 @@
 let TENANT = "https://cairnsgames.co.za/php/tenant/";
-let AUTH = "https://cairnsgames.co.za/php/auth/";
+let AUTH = "http://localhost/cairnsgames/php/auth/";
+// let AUTH = "https://cairnsgames.co.za/php/auth/";
 let SETTINGS = "https://cairnsgames.co.za/php/settings/api.php/";
 let CONTENT = "https://cairnsgames.co.za/php/content/";
 let FILES = "https://cairnsgames.co.za/files/";
