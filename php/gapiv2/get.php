@@ -63,11 +63,39 @@ function SelectData($config, $id = null)
                 $stmt->bind_param($types, ...$params);
             }
             $stmt->execute();
-            $result = $stmt->get_result();
-            $rows = [];
-            while ($row = $result->fetch_assoc()) {
-                $rows[] = $row;
+            
+            // Get metadata to determine column names
+            $meta = $stmt->result_metadata();
+            if (!$meta) {
+                $stmt->close();
+                return [];
             }
+            
+            $fields = [];
+            $row = [];
+            $params = [];
+            
+            // Get field names from metadata
+            while ($field = $meta->fetch_field()) {
+                $fields[] = $field->name;
+                $row[$field->name] = null;
+                $params[] = &$row[$field->name];
+            }
+            
+            // Bind results to variables
+            call_user_func_array([$stmt, 'bind_result'], $params);
+            
+            // Fetch results
+            $rows = [];
+            while ($stmt->fetch()) {
+                $rowData = [];
+                foreach ($fields as $field) {
+                    $rowData[$field] = $row[$field];
+                }
+                $rows[] = $rowData;
+            }
+            
+            $meta->close();
             $stmt->close();
         }
     } elseif (is_array($config['select'])) {
@@ -108,11 +136,39 @@ function SelectData($config, $id = null)
             $stmt->bind_param($types, ...$params);
         }
         $stmt->execute();
-        $result = $stmt->get_result();
-        $rows = [];
-        while ($row = $result->fetch_assoc()) {
-            $rows[] = $row;
+        
+        // Get metadata to determine column names
+        $meta = $stmt->result_metadata();
+        if (!$meta) {
+            $stmt->close();
+            return [];
         }
+        
+        $fields = [];
+        $row = [];
+        $params = [];
+        
+        // Get field names from metadata
+        while ($field = $meta->fetch_field()) {
+            $fields[] = $field->name;
+            $row[$field->name] = null;
+            $params[] = &$row[$field->name];
+        }
+        
+        // Bind results to variables
+        call_user_func_array([$stmt, 'bind_result'], $params);
+        
+        // Fetch results
+        $rows = [];
+        while ($stmt->fetch()) {
+            $rowData = [];
+            foreach ($fields as $field) {
+                $rowData[$field] = $row[$field];
+            }
+            $rows[] = $rowData;
+        }
+        
+        $meta->close();
         $stmt->close();
     }
 
