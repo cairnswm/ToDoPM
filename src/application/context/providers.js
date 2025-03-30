@@ -5,7 +5,7 @@ import { AuthenticationProvider } from "../../auth/context/AuthContext";
 import { SettingsProvider } from "../../auth/context/SettingsContext";
 import { SubscriptionsProvider } from "../../auth/context/SubscriptionsContext";
 import { SummaryProvider } from "./SummaryContext";
-import App from "../../app";
+import App from "../../App";
 
 const Providers = () => {
   return (
